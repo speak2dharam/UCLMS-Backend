@@ -1,0 +1,125 @@
+# ───────────────────────────────────────────────────────────────────────────
+# .NET / Visual Studio build artifacts
+# ───────────────────────────────────────────────────────────────────────────
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# MSBuild outputs
+*.binlog
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Roslyn cache
+*.cache
+.vs/
+
+# Visual Studio user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+.vshistory/
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# JetBrains caches
+.idea_modules/
+
+# ───────────────────────────────────────────────────────────────────────────
+# Compiled output
+# ───────────────────────────────────────────────────────────────────────────
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.lib
+*.exp
+
+# Don't ignore signing / strong-name keys that genuinely live in source
+!*.snk.example
+
+# ───────────────────────────────────────────────────────────────────────────
+# NuGet
+# ───────────────────────────────────────────────────────────────────────────
+*.nupkg
+*.snupkg
+packages/
+!*.targets
+!*.props
+.nuget/
+*.nuget.props
+*.nuget.targets
+node_modules/
+
+# ───────────────────────────────────────────────────────────────────────────
+# Test results / coverage
+# ───────────────────────────────────────────────────────────────────────────
+TestResults/
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+.coverlet/
+
+# ───────────────────────────────────────────────────────────────────────────
+# Local secrets & environment config
+# ───────────────────────────────────────────────────────────────────────────
+# User-secrets are stored outside the repo, but ignore any local stash too.
+secrets.json
+appsettings.Local.json
+appsettings.*.Local.json
+appsettings.Development.local.json
+*.env
+.env.local
+
+# Connection-string / key drops the team uses for hand-off
+local.settings.json
+
+# ───────────────────────────────────────────────────────────────────────────
+# EF Core
+# ───────────────────────────────────────────────────────────────────────────
+# Keep migrations themselves under source control. Only ignore ad-hoc SQL
+# scripts that EF emits via `dotnet ef migrations script`.
+*.sql.tmp
+migrations.sql
+
+# ───────────────────────────────────────────────────────────────────────────
+# Misc IDE / OS noise
+# ───────────────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.bak
+*.tmp
+*.orig
+
+# ───────────────────────────────────────────────────────────────────────────
+# Publish output
+# ───────────────────────────────────────────────────────────────────────────
+publish/
+PublishProfiles/*.pubxml.user
+*.[Pp]ublish.xml
+*.azurePubxml

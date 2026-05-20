@@ -1,0 +1,10 @@
+using UCLMS.Domain.Entities;
+
+namespace UCLMS.Application.Interfaces.Repositories;
+
+public interface ICoursePageRepository : IBaseRepository<CoursePage>
+{
+    Task<IEnumerable<CoursePage>> GetByCourseAsync(int courseId, CancellationToken ct = default);
+    Task<CoursePage?> GetWithCourseAsync(int pageId, CancellationToken ct = default);
+    Task<int> GetNextOrderIndexAsync(int courseId, CancellationToken ct = default);
+}

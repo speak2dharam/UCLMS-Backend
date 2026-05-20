@@ -1,0 +1,6 @@
+@UCLMS.API_HostAddress = http://localhost:5120
+
+GET {{UCLMS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
