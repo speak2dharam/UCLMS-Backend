@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/core/services/gradebook.service.ts"],
+  "sourcesContent": ["import { Injectable } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { ApiService } from './api.service';\nimport { CourseGradebookDto, LearnerGradesDto, OrgGradebookDto } from '../models/gradebook.models';\n\n@Injectable({ providedIn: 'root' })\nexport class GradebookService {\n  constructor(private api: ApiService) {}\n\n  getCourseGradebook(courseId: number): Observable<CourseGradebookDto> {\n    return this.api.get<CourseGradebookDto>(`gradebook/course/${courseId}`);\n  }\n\n  getLearnerGrades(courseId: number, userId: number): Observable<LearnerGradesDto> {\n    return this.api.get<LearnerGradesDto>(`gradebook/course/${courseId}/learner/${userId}`);\n  }\n\n  getOrgGradebook(courseId: number, orgId: number): Observable<OrgGradebookDto> {\n    return this.api.get<OrgGradebookDto>(`gradebook/course/${courseId}/org/${orgId}`);\n  }\n}\n"],
+  "mappings": ";;;;;;;;;AAMM,IAAO,mBAAP,MAAO,kBAAgB;EACP;EAApB,YAAoB,KAAe;AAAf,SAAA,MAAA;EAAkB;EAEtC,mBAAmB,UAAgB;AACjC,WAAO,KAAK,IAAI,IAAwB,oBAAoB,QAAQ,EAAE;EACxE;EAEA,iBAAiB,UAAkB,QAAc;AAC/C,WAAO,KAAK,IAAI,IAAsB,oBAAoB,QAAQ,YAAY,MAAM,EAAE;EACxF;EAEA,gBAAgB,UAAkB,OAAa;AAC7C,WAAO,KAAK,IAAI,IAAqB,oBAAoB,QAAQ,QAAQ,KAAK,EAAE;EAClF;;qCAbW,mBAAgB,mBAAA,UAAA,CAAA;EAAA;4EAAhB,mBAAgB,SAAhB,kBAAgB,WAAA,YADH,OAAM,CAAA;;;sEACnB,kBAAgB,CAAA;UAD5B;WAAW,EAAE,YAAY,OAAM,CAAE;;;",
+  "names": []
+}

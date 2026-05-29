@@ -1,1 +1,0 @@
-import{P as i,a as o,b as r,ha as a}from"./chunk-KCKJ5IWR.js";var s=class n{active=a(null);ask(t){return new Promise(e=>{this.active.set(r(o({},t),{resolve:e}))})}respond(t){let e=this.active();e&&(this.active.set(null),e.resolve(t))}static \u0275fac=function(e){return new(e||n)};static \u0275prov=i({token:n,factory:n.\u0275fac,providedIn:"root"})};export{s as a};

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/layout/shell/shell.scss"],
+  "sourcesContent": [".shell {\n  display: flex;\n  min-height: 100vh;\n  background: var(--bg);\n}\n\n.main-area {\n  flex: 1;\n  margin-left: var(--sidebar-w);\n  display: flex; flex-direction: column;\n  min-height: 100vh;\n  min-width: 0;\n}\n\n.page-content {\n  flex: 1;\n  padding: 28px 32px 56px;\n  max-width: 1440px;\n  width: 100%;\n  margin: 0 auto;\n\n  @media (max-width: 768px) {\n    padding: 20px 16px 40px;\n  }\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,cAAA;AACA,cAAA,IAAA;;AAGF,CAAA;AACE,QAAA;AACA,eAAA,IAAA;AACA,WAAA;AAAe,kBAAA;AACf,cAAA;AACA,aAAA;;AAGF,CAAA;AACE,QAAA;AACA,WAAA,KAAA,KAAA;AACA,aAAA;AACA,SAAA;AACA,UAAA,EAAA;;AAEA,QAAA,WAAA;AAPF,GAAA;AAQI,aAAA,KAAA,KAAA;;;",
+  "names": []
+}

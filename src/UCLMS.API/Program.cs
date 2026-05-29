@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using UCLMS.API.Extensions;
-using UCLMS.API.Hubs;
 using UCLMS.API.Middleware;
 using UCLMS.Application;
 using UCLMS.Infrastructure;
@@ -19,8 +18,6 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSwagger();
-
-builder.Services.AddSignalR();
 
 // CORS only needed in dev — the Angular dev server (4200) calls the API (7191) cross-origin.
 // In production the SPA is served from the same App Service, so no CORS policy is applied.
@@ -58,9 +55,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<NotificationHub>("/hubs/notifications");
 
-// SPA fallback: any non-API, non-hub, non-static request returns index.html so
+// SPA fallback: any non-API, non-static request returns index.html so
 // Angular's client-side router can handle it (e.g. /courses/5, /login).
 app.MapFallbackToFile("index.html");
 

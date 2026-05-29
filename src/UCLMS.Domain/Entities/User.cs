@@ -25,5 +25,4 @@ public class User : BaseEntity
     public ICollection<ObserverOrgAssignment> ObserverOrgAssignments { get; set; } = new List<ObserverOrgAssignment>();
     public ICollection<CourseEnrollment> CourseEnrollments { get; set; } = new List<CourseEnrollment>();
     public ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
-    public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }

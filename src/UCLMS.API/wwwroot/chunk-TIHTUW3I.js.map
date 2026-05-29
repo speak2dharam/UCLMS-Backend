@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/core/services/confirm.service.ts"],
+  "sourcesContent": ["import { Injectable, signal } from '@angular/core';\n\nexport interface ConfirmRequest {\n  title: string;\n  message: string;\n  confirmLabel?: string;\n  cancelLabel?: string;\n  danger?: boolean;\n}\n\ninterface ActiveConfirm extends ConfirmRequest {\n  resolve: (ok: boolean) => void;\n}\n\n@Injectable({ providedIn: 'root' })\nexport class ConfirmService {\n  readonly active = signal<ActiveConfirm | null>(null);\n\n  ask(req: ConfirmRequest): Promise<boolean> {\n    return new Promise<boolean>(resolve => {\n      this.active.set({ ...req, resolve });\n    });\n  }\n\n  respond(ok: boolean) {\n    const current = this.active();\n    if (!current) return;\n    this.active.set(null);\n    current.resolve(ok);\n  }\n}\n"],
+  "mappings": ";;;;;;;;;;AAeM,IAAO,iBAAP,MAAO,gBAAc;EAChB,SAAS,OAA6B,MAAI,GAAA,YAAA,CAAA,EAAA,WAAA,SAAA,CAAA,IAAA,CAAA,CAAA;EAEnD,IAAI,KAAmB;AACrB,WAAO,IAAI,QAAiB,aAAU;AACpC,WAAK,OAAO,IAAI,iCAAK,MAAL,EAAU,QAAO,EAAE;IACrC,CAAC;EACH;EAEA,QAAQ,IAAW;AACjB,UAAM,UAAU,KAAK,OAAM;AAC3B,QAAI,CAAC;AAAS;AACd,SAAK,OAAO,IAAI,IAAI;AACpB,YAAQ,QAAQ,EAAE;EACpB;;qCAdW,iBAAc;EAAA;4EAAd,iBAAc,SAAd,gBAAc,WAAA,YADD,OAAM,CAAA;;;sEACnB,gBAAc,CAAA;UAD1B;WAAW,EAAE,YAAY,OAAM,CAAE;;;",
+  "names": []
+}

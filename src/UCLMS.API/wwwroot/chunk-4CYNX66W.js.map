@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/safe-html.pipe.ts"],
+  "sourcesContent": ["import { Pipe, PipeTransform, inject } from '@angular/core';\nimport { DomSanitizer, SafeHtml } from '@angular/platform-browser';\n\n/**\n * Renders author-supplied HTML *without* Angular's sanitizer stripping it.\n *\n * Angular's default [innerHTML] binding removes <iframe>, inline event handlers,\n * and other \"unsafe\" markup — which silently drops embeds like Vimeo/YouTube.\n * This pipe bypasses that so rich page content renders as authored.\n *\n * ⚠️ SECURITY: bypassing sanitization trusts the HTML. That's acceptable here\n * because page/syllabus content is authored only by Platform Admins / Instructors.\n * If page authoring is ever opened to untrusted users, sanitize server-side\n * (or with DOMPurify + an iframe allowlist) instead of trusting blindly.\n */\n@Pipe({ name: 'safeHtml', standalone: true })\nexport class SafeHtmlPipe implements PipeTransform {\n  private sanitizer = inject(DomSanitizer);\n\n  transform(value: string | null | undefined): SafeHtml {\n    return this.sanitizer.bypassSecurityTrustHtml(value ?? '');\n  }\n}\n"],
+  "mappings": ";;;;;;;;;;;AAgBM,IAAO,eAAP,MAAO,cAAY;EACf,YAAY,OAAO,YAAY;EAEvC,UAAU,OAAgC;AACxC,WAAO,KAAK,UAAU,wBAAwB,SAAS,EAAE;EAC3D;;qCALW,eAAY;EAAA;uFAAZ,eAAY,MAAA,KAAA,CAAA;;;sEAAZ,cAAY,CAAA;UADxB;WAAK,EAAE,MAAM,YAAY,YAAY,KAAI,CAAE;;;",
+  "names": []
+}

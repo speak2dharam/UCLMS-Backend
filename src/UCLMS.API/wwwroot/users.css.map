@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/users/users.scss"],
+  "sourcesContent": [".pagination { padding: 14px 18px; }\n\n.user-row-name {\n  display: inline-flex; align-items: center; gap: 10px;\n  .avatar {\n    width: 32px; height: 32px;\n    border-radius: 50%;\n    display: inline-flex; align-items: center; justify-content: center;\n    background: linear-gradient(135deg, var(--brand-500) 0%, var(--accent-600) 100%);\n    color: #fff; font-size: 12px; font-weight: 700;\n    flex-shrink: 0;\n  }\n}\n"],
+  "mappings": ";AAAA,CAAA;AAAc,WAAA,KAAA;;AAEd,CAAA;AACE,WAAA;AAAsB,eAAA;AAAqB,OAAA;;AAC3C,CAFF,cAEE,CAAA;AACE,SAAA;AAAa,UAAA;AACb,iBAAA;AACA,WAAA;AAAsB,eAAA;AAAqB,mBAAA;AAC3C;IAAA;MAAA,MAAA;MAAA,IAAA,aAAA,EAAA;MAAA,IAAA,cAAA;AACA,SAAA;AAAa,aAAA;AAAiB,eAAA;AAC9B,eAAA;;",
+  "names": []
+}

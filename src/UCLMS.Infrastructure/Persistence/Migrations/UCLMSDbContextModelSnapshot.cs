@@ -582,50 +582,6 @@ namespace UCLMS.Infrastructure.Persistence.Migrations
                     b.ToTable("ModuleItemProgress");
                 });
 
-            modelBuilder.Entity("UCLMS.Domain.Entities.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RelatedEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RelatedEntityType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("UCLMS.Domain.Entities.ObserverOrgAssignment", b =>
                 {
                     b.Property<int>("Id")
@@ -1305,17 +1261,6 @@ namespace UCLMS.Infrastructure.Persistence.Migrations
                     b.Navigation("ModuleItem");
                 });
 
-            modelBuilder.Entity("UCLMS.Domain.Entities.Notification", b =>
-                {
-                    b.HasOne("UCLMS.Domain.Entities.User", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("UCLMS.Domain.Entities.ObserverOrgAssignment", b =>
                 {
                     b.HasOne("UCLMS.Domain.Entities.User", "ObserverUser")
@@ -1547,8 +1492,6 @@ namespace UCLMS.Infrastructure.Persistence.Migrations
                     b.Navigation("Certificates");
 
                     b.Navigation("CourseEnrollments");
-
-                    b.Navigation("Notifications");
 
                     b.Navigation("ObserverOrgAssignments");
                 });

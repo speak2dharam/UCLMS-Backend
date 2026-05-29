@@ -3,7 +3,6 @@ using UCLMS.Application.DTOs.Certificates;
 using UCLMS.Application.DTOs.Courses;
 using UCLMS.Application.DTOs.ModuleItems;
 using UCLMS.Application.DTOs.Modules;
-using UCLMS.Application.DTOs.Notifications;
 using UCLMS.Application.DTOs.Organizations;
 using UCLMS.Application.DTOs.Pages;
 using UCLMS.Application.DTOs.Users;
@@ -68,10 +67,5 @@ public class MappingProfile : Profile
                 s.CourseId,
                 s.Course != null ? s.Course.Title : string.Empty,
                 s.IssuedAt, s.VerificationCode, s.CertificateFileUrl, s.FinalScore));
-
-        CreateMap<Notification, NotificationDto>()
-            .ConstructUsing(s => new NotificationDto(
-                s.Id, s.Title, s.Message, s.Type.ToString(), s.IsRead,
-                s.RelatedEntityType, s.RelatedEntityId, s.CreatedAt));
     }
 }

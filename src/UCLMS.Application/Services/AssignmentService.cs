@@ -13,18 +13,15 @@ public class AssignmentService : IAssignmentService
     private readonly IAssignmentRepository _assignments;
     private readonly ICourseRepository _courses;
     private readonly IModuleItemRepository _items;
-    private readonly INotificationService _notifications;
 
     public AssignmentService(
         IAssignmentRepository assignments,
         ICourseRepository courses,
-        IModuleItemRepository items,
-        INotificationService notifications)
+        IModuleItemRepository items)
     {
         _assignments = assignments;
         _courses = courses;
         _items = items;
-        _notifications = notifications;
     }
 
     public async Task<IEnumerable<AssignmentDetailDto>> GetByCourseAsync(int courseId, CancellationToken ct = default)
@@ -147,13 +144,6 @@ public class AssignmentService : IAssignmentService
 
         await _assignments.UpdateSubmissionAsync(submission, ct);
         await _assignments.SaveAsync(ct);
-
-        await _notifications.SendAsync(
-            submission.UserId,
-            "Assignment Graded",
-            $"Your submission for '{submission.Assignment.Title}' has been graded. Score: {dto.Score}/{submission.Assignment.MaxPoints}.",
-            NotificationType.AssignmentGraded,
-            "Assignment", submission.AssignmentId, ct);
 
         return MapSubmission(submission);
     }

@@ -12,20 +12,17 @@ public class OrganizationService : IOrganizationService
     private readonly IOrganizationRepository _orgs;
     private readonly IUserRepository _users;
     private readonly ICourseRepository _courses;
-    private readonly INotificationService _notifications;
     private readonly IEmailService _email;
 
     public OrganizationService(
         IOrganizationRepository orgs,
         IUserRepository users,
         ICourseRepository courses,
-        INotificationService notifications,
         IEmailService email)
     {
         _orgs = orgs;
         _users = users;
         _courses = courses;
-        _notifications = notifications;
         _email = email;
     }
 
@@ -136,12 +133,6 @@ public class OrganizationService : IOrganizationService
             try
             {
                 await _courses.AddEnrollmentAsync(enrollment, ct);
-
-                await _notifications.SendAsync(user.Id,
-                    "New Course Enrolled",
-                    $"You have been enrolled in '{course.Title}'.",
-                    Domain.Enums.NotificationType.Enrollment,
-                    "Course", courseId, ct);
 
                 await _email.SendEnrollmentConfirmationAsync(user.Email, user.FullName, course.Title, ct);
             }

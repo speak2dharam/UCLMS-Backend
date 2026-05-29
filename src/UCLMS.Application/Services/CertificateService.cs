@@ -3,7 +3,6 @@ using UCLMS.Application.DTOs.Certificates;
 using UCLMS.Application.Interfaces.Repositories;
 using UCLMS.Application.Interfaces.Services;
 using UCLMS.Domain.Entities;
-using UCLMS.Domain.Enums;
 using UCLMS.Shared.Helpers;
 
 namespace UCLMS.Application.Services;
@@ -13,18 +12,15 @@ public class CertificateService : ICertificateService
     private readonly ICertificateRepository _certs;
     private readonly ICourseRepository _courses;
     private readonly IUserRepository _users;
-    private readonly INotificationService _notifications;
 
     public CertificateService(
         ICertificateRepository certs,
         ICourseRepository courses,
-        IUserRepository users,
-        INotificationService notifications)
+        IUserRepository users)
     {
         _certs = certs;
         _courses = courses;
         _users = users;
-        _notifications = notifications;
     }
 
     public async Task<CertificateDto> IssueCertificateAsync(IssueCertificateDto dto, int issuedByUserId, CancellationToken ct = default)
@@ -61,12 +57,6 @@ public class CertificateService : ICertificateService
 
         await _certs.AddAsync(certificate, ct);
         await _certs.SaveChangesAsync(ct);
-
-        await _notifications.SendAsync(dto.UserId,
-            "Certificate Issued",
-            $"Congratulations! Your certificate for '{course.Title}' is ready.",
-            NotificationType.CertificateIssued,
-            "Certificate", certificate.Id, ct);
 
         return new CertificateDto(
             certificate.Id, dto.UserId, user.FullName, dto.CourseId, course.Title,

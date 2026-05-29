@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/module-nav-bar/module-nav-bar.scss"],
+  "sourcesContent": [".mnav {\n  display: flex; align-items: center; justify-content: space-between; gap: 12px;\n  margin-top: 28px; padding-top: 18px;\n  border-top: 1px solid var(--border);\n\n  .mnav-side { flex: 1; display: flex; }\n  .mnav-right { justify-content: flex-end; }\n  .mnav-mid { display: flex; align-items: center; }\n  .btn .material-icons { vertical-align: middle; }\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AAAe,eAAA;AAAqB,mBAAA;AAAgC,OAAA;AACpE,cAAA;AAAkB,eAAA;AAClB,cAAA,IAAA,MAAA,IAAA;;AAEA,CALF,KAKE,CAAA;AAAa,QAAA;AAAS,WAAA;;AACtB,CANF,KAME,CAAA;AAAc,mBAAA;;AACd,CAPF,KAOE,CAAA;AAAY,WAAA;AAAe,eAAA;;AAC3B,CARF,KAQE,CAAA,IAAA,CAAA;AAAuB,kBAAA;;",
+  "names": []
+}

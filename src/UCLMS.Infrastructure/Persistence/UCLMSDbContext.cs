@@ -28,7 +28,6 @@ public class UCLMSDbContext : DbContext
     public DbSet<CertificateTemplate> CertificateTemplates => Set<CertificateTemplate>();
     public DbSet<Certificate> Certificates => Set<Certificate>();
     public DbSet<Announcement> Announcements => Set<Announcement>();
-    public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

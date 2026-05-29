@@ -16,20 +16,17 @@ public class CourseService : ICourseService
     private readonly ICourseRepository _courses;
     private readonly IUserRepository _users;
     private readonly IModuleItemRepository _items;
-    private readonly INotificationService _notifications;
     private readonly IEmailService _email;
 
     public CourseService(
         ICourseRepository courses,
         IUserRepository users,
         IModuleItemRepository items,
-        INotificationService notifications,
         IEmailService email)
     {
         _courses = courses;
         _users = users;
         _items = items;
-        _notifications = notifications;
         _email = email;
     }
 
@@ -270,11 +267,6 @@ public class CourseService : ICourseService
 
         await _courses.AddEnrollmentAsync(enrollment, ct);
         await _courses.SaveChangesAsync(ct);
-
-        await _notifications.SendAsync(userId,
-            "New Course Enrolled",
-            $"You have been enrolled in '{course.Title}'.",
-            NotificationType.Enrollment, "Course", courseId, ct);
 
         await _email.SendEnrollmentConfirmationAsync(user.Email, user.FullName, course.Title, ct);
     }

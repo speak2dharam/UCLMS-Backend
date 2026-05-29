@@ -23,7 +23,6 @@ public static class DependencyInjection
         services.AddScoped<IQuizRepository, QuizRepository>();
         services.AddScoped<IAssignmentRepository, AssignmentRepository>();
         services.AddScoped<ICertificateRepository, CertificateRepository>();
-        services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
         services.AddScoped<IModuleItemRepository, ModuleItemRepository>();
@@ -31,7 +30,6 @@ public static class DependencyInjection
 
         services.AddScoped<IBlobStorageService, BlobStorageService>();
         services.AddScoped<IEmailService, EmailService>();
-        services.AddScoped<INotificationService, NotificationHubService>();
         services.AddScoped<IJwtService, JwtService>();
 
         return services;

@@ -26,17 +26,6 @@ public static class ServiceCollectionExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ClockSkew = TimeSpan.Zero
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = ctx =>
-                    {
-                        var accessToken = ctx.Request.Query["access_token"];
-                        var path = ctx.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
-                            ctx.Token = accessToken;
-                        return Task.CompletedTask;
-                    }
-                };
             });
 
         return services;
