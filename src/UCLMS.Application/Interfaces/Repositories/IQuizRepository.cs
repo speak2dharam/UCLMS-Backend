@@ -8,6 +8,7 @@ public interface IQuizRepository : IBaseRepository<Quiz>
     Task<int> GetAttemptCountAsync(int quizId, int userId, CancellationToken ct = default);
     Task<QuizAttempt?> GetLatestAttemptAsync(int quizId, int userId, CancellationToken ct = default);
     Task<QuizAttempt?> GetAttemptByIdAsync(int attemptId, CancellationToken ct = default);
+    Task<int> DeleteAnswersByQuestionAsync(int questionId, CancellationToken ct = default);
     Task AddAttemptAsync(QuizAttempt attempt, CancellationToken ct = default);
     Task UpdateAttemptAsync(QuizAttempt attempt, CancellationToken ct = default);
     Task SaveAsync(CancellationToken ct = default);

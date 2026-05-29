@@ -1,4 +1,5 @@
-using Azure.Communication.Email;
+using System.Net;
+using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UCLMS.Application.Interfaces.Services;
@@ -7,19 +8,28 @@ namespace UCLMS.Infrastructure.Services;
 
 public class EmailService : IEmailService
 {
-    private readonly EmailClient? _client;
-    private readonly string _sender;
+    private readonly string? _host;
+    private readonly int _port;
+    private readonly string? _username;
+    private readonly string? _password;
+    private readonly bool _enableSsl;
+    private readonly string _senderAddress;
+    private readonly string _senderName;
     private readonly ILogger<EmailService> _logger;
 
     public EmailService(IConfiguration config, ILogger<EmailService> logger)
     {
         _logger = logger;
-        _sender = config["Azure:CommunicationServices:SenderAddress"] ?? "noreply@uclms.com";
-        var cs = config["Azure:CommunicationServices:ConnectionString"];
-        if (!string.IsNullOrWhiteSpace(cs))
-            _client = new EmailClient(cs);
-        else
-            _logger.LogWarning("Azure Communication Services not configured — emails will be skipped.");
+        _host = config["Smtp:Host"];
+        _port = int.TryParse(config["Smtp:Port"], out var p) ? p : 587;
+        _username = config["Smtp:Username"];
+        _password = config["Smtp:Password"];
+        _enableSsl = !bool.TryParse(config["Smtp:EnableSsl"], out var ssl) || ssl;
+        _senderAddress = config["Smtp:SenderAddress"] ?? _username ?? "noreply@uclms.com";
+        _senderName = config["Smtp:SenderName"] ?? "UCLMS";
+
+        if (string.IsNullOrWhiteSpace(_host))
+            _logger.LogWarning("SMTP not configured (Smtp:Host empty) — emails will be skipped.");
     }
 
     public Task SendInvitationAsync(string toEmail, string toName, string setupLink, CancellationToken ct = default) =>
@@ -44,13 +54,38 @@ public class EmailService : IEmailService
 
     private async Task SendAsync(string toEmail, string toName, string subject, string htmlBody, CancellationToken ct)
     {
-        if (_client is null)
+        if (string.IsNullOrWhiteSpace(_host))
         {
-            _logger.LogInformation("Email skipped (no Azure CS configured): {Subject} → {To}", subject, toEmail);
+            _logger.LogInformation("Email skipped (no SMTP host configured): {Subject} → {To}", subject, toEmail);
             return;
         }
-        var message = new EmailMessage(_sender, toEmail,
-            new EmailContent(subject) { Html = htmlBody });
-        await _client.SendAsync(Azure.WaitUntil.Started, message, ct);
+
+        try
+        {
+            using var message = new MailMessage
+            {
+                From = new MailAddress(_senderAddress, _senderName),
+                Subject = subject,
+                Body = htmlBody,
+                IsBodyHtml = true
+            };
+            message.To.Add(new MailAddress(toEmail, toName));
+
+            using var client = new SmtpClient(_host, _port)
+            {
+                EnableSsl = _enableSsl,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = string.IsNullOrEmpty(_username) ? null : new NetworkCredential(_username, _password)
+            };
+
+            await client.SendMailAsync(message, ct);
+        }
+        catch (Exception ex)
+        {
+            // Don't bubble email failures up to the caller — log and continue. User-facing flows
+            // (invitations, grading) should not fail because of a transient SMTP issue.
+            _logger.LogError(ex, "Failed to send email to {To} (subject: {Subject})", toEmail, subject);
+        }
     }
 }

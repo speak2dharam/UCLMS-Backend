@@ -157,7 +157,7 @@ public class QuizService : IQuizService
             question.OrderIndex, question.Points,
             question.QuestionType != QuestionType.ShortAnswer
                 ? question.Options.OrderBy(o => o.OrderIndex)
-                    .Select(o => new OptionDto(o.Id, o.OptionText, o.OrderIndex)).ToList()
+                    .Select(o => new OptionDto(o.Id, o.OptionText, o.IsCorrect, o.OrderIndex)).ToList()
                 : null);
     }
 
@@ -195,7 +195,7 @@ public class QuizService : IQuizService
             question.OrderIndex, question.Points,
             question.QuestionType != QuestionType.ShortAnswer
                 ? question.Options.OrderBy(o => o.OrderIndex)
-                    .Select(o => new OptionDto(o.Id, o.OptionText, o.OrderIndex)).ToList()
+                    .Select(o => new OptionDto(o.Id, o.OptionText, o.IsCorrect, o.OrderIndex)).ToList()
                 : null);
     }
 
@@ -206,6 +206,10 @@ public class QuizService : IQuizService
 
         var question = quiz.Questions.FirstOrDefault(q => q.Id == questionId)
             ?? throw new NotFoundException("Question", questionId);
+
+        // QuizAttemptAnswers → Question FK is NoAction (multiple cascade paths from Quiz);
+        // strip referencing answers before deleting the question.
+        await _quizzes.DeleteAnswersByQuestionAsync(questionId, ct);
 
         quiz.Questions.Remove(question);
         await _quizzes.SaveChangesAsync(ct);
@@ -253,7 +257,7 @@ public class QuizService : IQuizService
                 q.Points,
                 q.QuestionType != QuestionType.ShortAnswer
                     ? q.Options.OrderBy(o => o.OrderIndex)
-                        .Select(o => new OptionDto(o.Id, o.OptionText, o.OrderIndex))
+                        .Select(o => new AttemptOptionDto(o.Id, o.OptionText, o.OrderIndex))
                         .ToList()
                     : null
             )).ToList()
@@ -402,7 +406,9 @@ public class QuizService : IQuizService
         await _quizzes.SaveAsync(ct);
     }
 
-    // OptionDto doesn't expose IsCorrect — learners never see the answer key
+    // QuizDetailDto is the editor view — OptionDto here carries IsCorrect so the question
+    // editor can re-render the answer key. Learner attempts go through StartAttemptAsync
+    // above, which uses AttemptOptionDto (no IsCorrect) instead.
     private static QuizDetailDto MapToDetail(Quiz quiz) => new(
         quiz.Id,
         quiz.CourseId,
@@ -423,7 +429,7 @@ public class QuizService : IQuizService
             q.Points,
             q.QuestionType != QuestionType.ShortAnswer
                 ? q.Options.OrderBy(o => o.OrderIndex)
-                    .Select(o => new OptionDto(o.Id, o.OptionText, o.OrderIndex))
+                    .Select(o => new OptionDto(o.Id, o.OptionText, o.IsCorrect, o.OrderIndex))
                     .ToList()
                 : null
         )).ToList()

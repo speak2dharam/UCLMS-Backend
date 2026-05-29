@@ -22,14 +22,19 @@ builder.Services.AddSwagger();
 
 builder.Services.AddSignalR();
 
-builder.Services.AddCors(options =>
+// CORS only needed in dev — the Angular dev server (4200) calls the API (7191) cross-origin.
+// In production the SPA is served from the same App Service, so no CORS policy is applied.
+if (builder.Environment.IsDevelopment())
 {
-    options.AddPolicy("AllowAngular", policy =>
-        policy.WithOrigins(builder.Configuration["Cors:AllowedOrigin"] ?? "http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials());
-});
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAngular", policy =>
+            policy.WithOrigins(builder.Configuration["Cors:AllowedOrigin"] ?? "http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials());
+    });
+}
 
 var app = builder.Build();
 
@@ -41,14 +46,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UCLMS API v1"));
+    app.UseHttpsRedirection();
+    app.UseCors("AllowAngular");
 }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowAngular");
+// Serve the Angular SPA from wwwroot (in prod) alongside the API.
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<NotificationHub>("/hubs/notifications");
+
+// SPA fallback: any non-API, non-hub, non-static request returns index.html so
+// Angular's client-side router can handle it (e.g. /courses/5, /login).
+app.MapFallbackToFile("index.html");
 
 app.Run();

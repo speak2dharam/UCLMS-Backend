@@ -24,4 +24,8 @@ public record QuestionDto(
     List<OptionDto>? Options
 );
 
-public record OptionDto(int Id, string OptionText, int OrderIndex);
+/// <summary>Editor-side option payload — includes the answer key so the question editor
+/// can pre-check the correct boxes when an instructor re-opens a question.
+/// Learner-facing attempts use <see cref="QuizAttemptDto.AttemptOptionDto"/> which
+/// deliberately omits IsCorrect.</summary>
+public record OptionDto(int Id, string OptionText, bool IsCorrect, int OrderIndex);

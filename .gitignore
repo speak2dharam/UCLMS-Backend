@@ -90,6 +90,8 @@ secrets.json
 appsettings.Local.json
 appsettings.*.Local.json
 appsettings.Development.local.json
+appsettings.Production.json
+appsettings.Staging.json
 *.env
 .env.local
 

@@ -32,7 +32,11 @@ public class QuizRepository : BaseRepository<Quiz>, IQuizRepository
                     .ThenInclude(q => q.Options)
             .Include(a => a.Quiz)
                 .ThenInclude(q => q.Questions)
+                    .ThenInclude(q => q.Options)
             .FirstOrDefaultAsync(a => a.Id == attemptId, ct);
+
+    public Task<int> DeleteAnswersByQuestionAsync(int questionId, CancellationToken ct = default) =>
+        _db.QuizAttemptAnswers.Where(a => a.QuestionId == questionId).ExecuteDeleteAsync(ct);
 
     public async Task AddAttemptAsync(QuizAttempt attempt, CancellationToken ct = default) =>
         await _db.QuizAttempts.AddAsync(attempt, ct);

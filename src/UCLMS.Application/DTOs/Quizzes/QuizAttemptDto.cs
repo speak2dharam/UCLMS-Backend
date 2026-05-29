@@ -14,5 +14,9 @@ public record AttemptQuestionDto(
     string QuestionText,
     string QuestionType,
     decimal Points,
-    List<OptionDto>? Options
+    List<AttemptOptionDto>? Options
 );
+
+/// <summary>Learner-facing option — IsCorrect is deliberately absent so the answer key
+/// never travels to the client during an attempt.</summary>
+public record AttemptOptionDto(int Id, string OptionText, int OrderIndex);
